@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"ziglu/models"
 	articleSourceService "ziglu/services/article-source-service"
 )
 
@@ -49,4 +50,27 @@ func GetArticleSources(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusNotFound, gin.H{"sources": articles})
+}
+
+// SetActiveArticleSource Sets a specific news source as the active one
+func SetActiveArticleSource(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "request doesn't contain valid id"})
+		return
+	}
+
+	articleSource := articleSourceService.ArticleSource{ID: id}
+	exists, err := articleSource.ExistByID()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": fmt.Sprintf("failed to check for article source - %s", err)})
+		return
+	}
+	if !exists {
+		c.JSON(http.StatusNotFound, gin.H{"message": "article source not found"})
+		return
+	}
+
+	// TODO: Make this not circumvent the articleSourceService
+	models.SetActiveArticleSource(id)
 }

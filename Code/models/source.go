@@ -12,6 +12,8 @@ type ArticleSource struct {
 	URL string `json:"url"`
 }
 
+var activeNewsSource *ArticleSource
+
 func ExistSourceByID(id int) (bool, error) {
 	var source ArticleSource
 	err := db.Table(setting.DatabaseSetting.ArticleSourceTable).Select("id").Where("id = ?", id).First(&source).Error
@@ -46,4 +48,21 @@ func GetArticleSource(id int) (*ArticleSource, error) {
 	}
 
 	return &articleSource, nil
+}
+
+// SetActiveArticleSource Sets the active article source URL
+func SetActiveArticleSource(id int) error {
+	source, err := GetArticleSource(id)
+	if err != nil {
+		return err
+	}
+
+	// TODO: Add validation
+	activeNewsSource = source
+	return nil
+}
+
+// GetActiveArticleSource Gets the active article source URL
+func GetActiveArticleSource() *ArticleSource {
+	return activeNewsSource
 }

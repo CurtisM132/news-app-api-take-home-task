@@ -19,6 +19,9 @@ import (
 func init() {
 	setting.Setup()
 	models.CreateConnection()
+
+	// Set the first article source to be active
+	models.SetActiveArticleSource(1)
 }
 
 func main() {
@@ -43,16 +46,25 @@ func startHTTPServer() {
 }
 
 func keepArticlesUpToDate() {
-	rssFeedUrl := "http://feeds.bbci.co.uk/news/uk/rss.xml"
+	getAndPersistArticles := func() {
+		rssFeedUrl := models.GetActiveArticleSource().URL
 
-	for {
 		rssItems, err := getRSSArticles(rssFeedUrl)
 		if err != nil {
 			log.Printf("[ERROR] Failed to get articles from RSS feed (%s) - %s\n", rssFeedUrl, err)
 		}
-		persistRSSArticles(rssItems)
 
-		time.Sleep(time.Duration(setting.ServerSetting.ArticleUpdateRate) * time.Minute)
+		persistRSSArticles(rssItems)
+	}
+
+	getAndPersistArticles()
+
+	for {
+		select {
+		// TODO: Update the articles when the active source changes
+		case <-time.After(time.Duration(setting.ServerSetting.ArticleUpdateRate) * time.Minute):
+			getAndPersistArticles()
+		}
 	}
 }
 
