@@ -1,7 +1,7 @@
 package models
 
 import (
-	"news-app/pkg/setting"
+	"news-app/internal/setting"
 
 	"gorm.io/gorm"
 )
@@ -17,6 +17,7 @@ type Article struct {
 	Author      string `json:"author"`
 }
 
+// ExistArticleByID Returns if the record exists in the database
 func ExistArticleByID(id int) (bool, error) {
 	var article Article
 	err := db.Table(setting.DatabaseSetting.ArticleTable).Select("id").Where("id = ?", id).First(&article).Error
@@ -31,6 +32,7 @@ func ExistArticleByID(id int) (bool, error) {
 	return false, nil
 }
 
+// ExistArticleByArticleID Returns if the record exists in the database using the articles id
 func ExistArticleByArticleID(id string) (bool, error) {
 	var article Article
 	err := db.Table(setting.DatabaseSetting.ArticleTable).Select("id").Where("article_id = ?", id).First(&article).Error
@@ -45,18 +47,21 @@ func ExistArticleByArticleID(id string) (bool, error) {
 	return false, nil
 }
 
+// AddArticle Adds an article to the database
 func AddArticle(article *Article) error {
-	if err := db.Table(setting.DatabaseSetting.ArticleTable).Create(article).Error; err != nil {
+	err := db.Table(setting.DatabaseSetting.ArticleTable).Create(article).Error
+	if err != nil {
 		return err
 	}
 
 	return nil
 }
 
-// GetArticleTotal gets the total number of articles based on the constraints
+// GetArticleTotal gets the total number of articles
 func GetArticleTotal() (int64, error) {
 	var count int64
-	if err := db.Table(setting.DatabaseSetting.ArticleTable).Model(&Article{}).Count(&count).Error; err != nil {
+	err := db.Table(setting.DatabaseSetting.ArticleTable).Model(&Article{}).Count(&count).Error
+	if err != nil {
 		return 0, err
 	}
 

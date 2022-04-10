@@ -1,4 +1,4 @@
-module ziglu
+module news-app
 
 go 1.16
 

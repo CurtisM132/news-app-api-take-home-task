@@ -1,7 +1,7 @@
 package models
 
 import (
-	"news-app/pkg/setting"
+	"news-app/internal/setting"
 
 	"gorm.io/gorm"
 )
@@ -14,6 +14,7 @@ type ArticleSource struct {
 
 var activeNewsSource *ArticleSource
 
+// ExistSourceByID Returns if the record exists in the database
 func ExistSourceByID(id int) (bool, error) {
 	var source ArticleSource
 	err := db.Table(setting.DatabaseSetting.ArticleSourceTable).Select("id").Where("id = ?", id).First(&source).Error

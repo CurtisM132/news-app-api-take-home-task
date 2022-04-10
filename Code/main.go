@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
+	"news-app/internal/setting"
+	"news-app/internal/utils"
 	"news-app/models"
-	"news-app/pkg/setting"
-	"news-app/pkg/utils"
 	"news-app/routers"
 	articleService "news-app/services/article-service"
 
@@ -45,6 +45,8 @@ func startHTTPServer() {
 	server.ListenAndServe()
 }
 
+// keepArticlesUpToDate Regularly scraps the news source for articles then persist the ones that don't
+// already exist in the database
 func keepArticlesUpToDate() {
 	getAndPersistArticles := func() {
 		rssFeedUrl := models.GetActiveArticleSource().URL
@@ -68,6 +70,7 @@ func keepArticlesUpToDate() {
 	}
 }
 
+// getRSSArticles Gets and returns all of the articles extracted from an RSS feed
 func getRSSArticles(rssFeedUrl string) ([]*gofeed.Item, error) {
 	feed, err := utils.ParseRSSFeed(rssFeedUrl)
 	if err != nil {
@@ -77,6 +80,7 @@ func getRSSArticles(rssFeedUrl string) ([]*gofeed.Item, error) {
 	return feed.Items, nil
 }
 
+// persistRSSArticles Persists RSS feed articles
 func persistRSSArticles(items []*gofeed.Item) {
 	for i := range items {
 		article := articleService.Article{ArticleID: items[i].GUID}
