@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"time"
 
-	"ziglu/models"
-	"ziglu/pkg/setting"
-	"ziglu/pkg/utils"
-	"ziglu/routers"
-	articleService "ziglu/services/article-service"
+	"news-app/models"
+	"news-app/pkg/setting"
+	"news-app/pkg/utils"
+	"news-app/routers"
+	articleService "news-app/services/article-service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mmcdole/gofeed"

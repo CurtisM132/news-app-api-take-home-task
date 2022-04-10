@@ -7,7 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	articleService "ziglu/services/article-service"
+	articleService "news-app/services/article-service"
 )
 
 // GetArticle Gets a single article

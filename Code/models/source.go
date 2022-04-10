@@ -1,7 +1,7 @@
 package models
 
 import (
-	"ziglu/pkg/setting"
+	"news-app/pkg/setting"
 
 	"gorm.io/gorm"
 )

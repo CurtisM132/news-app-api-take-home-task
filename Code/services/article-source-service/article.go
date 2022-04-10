@@ -1,6 +1,6 @@
 package article_service
 
-import "ziglu/models"
+import "news-app/models"
 
 type ArticleSource struct {
 	ID  int

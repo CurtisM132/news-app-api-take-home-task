@@ -7,7 +7,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"ziglu/pkg/setting"
+	"news-app/pkg/setting"
 )
 
 var db *gorm.DB

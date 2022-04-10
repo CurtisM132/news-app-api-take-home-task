@@ -3,7 +3,7 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 
-	v1 "ziglu/routers/api/v1"
+	v1 "news-app/routers/api/v1"
 )
 
 // InitRouter initialize routing information
@@ -15,10 +15,11 @@ func InitRouter() *gin.Engine {
 	apiv1 := r.Group("/api/v1")
 	{
 		apiv1.GET("/articles", v1.GetArticles)
-		apiv1.GET("/articles/:id", v1.GetArticle)
+		apiv1.GET("/article/:id", v1.GetArticle)
 
 		apiv1.GET("/article-sources", v1.GetArticleSources)
 		apiv1.GET("/article-source/:id", v1.GetArticleSource)
+		apiv1.POST("/article-source/:id", v1.SetActiveArticleSource)
 	}
 
 	return r
