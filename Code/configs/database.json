@@ -3,5 +3,7 @@
     "password": "password",
     "host": "localhost",
     "port": "4200",
-    "database": "articles"
+    "database": "postgres",
+    "articleTable": "article",
+    "articleSourceTable": "source"
 }

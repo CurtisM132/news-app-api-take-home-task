@@ -18,8 +18,8 @@ type Model struct {
 
 // Setup initializes the database instance
 func CreateConnection() {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", setting.DatabaseSetting.Host,
-		setting.DatabaseSetting.User, setting.DatabaseSetting.Password, setting.DatabaseSetting.Database, setting.DatabaseSetting.Port)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s port=%s database=%s sslmode=disable", setting.DatabaseSetting.Host,
+		setting.DatabaseSetting.User, setting.DatabaseSetting.Password, setting.DatabaseSetting.Port, setting.DatabaseSetting.Database)
 
 	var err error
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})

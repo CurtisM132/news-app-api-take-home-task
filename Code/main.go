@@ -52,7 +52,7 @@ func keepArticlesUpToDate() {
 		}
 		persistRSSArticles(rssItems)
 
-		time.Sleep(5 * time.Minute)
+		time.Sleep(time.Duration(setting.ServerSetting.ArticleUpdateRate) * time.Minute)
 	}
 }
 

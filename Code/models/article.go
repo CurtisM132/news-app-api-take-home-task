@@ -1,6 +1,8 @@
 package models
 
 import (
+	"ziglu/pkg/setting"
+
 	"gorm.io/gorm"
 )
 
@@ -17,7 +19,7 @@ type Article struct {
 
 func ExistArticleByID(id int) (bool, error) {
 	var article Article
-	err := db.Select("id").Where("id = ?", id).First(&article).Error
+	err := db.Table(setting.DatabaseSetting.ArticleTable).Select("id").Where("id = ?", id).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return false, err
 	}
@@ -31,7 +33,7 @@ func ExistArticleByID(id int) (bool, error) {
 
 func ExistArticleByArticleID(id string) (bool, error) {
 	var article Article
-	err := db.Select("id").Where("article_id = ?", id).First(&article).Error
+	err := db.Table(setting.DatabaseSetting.ArticleTable).Select("id").Where("article_id = ?", id).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return false, err
 	}
@@ -44,7 +46,7 @@ func ExistArticleByArticleID(id string) (bool, error) {
 }
 
 func AddArticle(article *Article) error {
-	if err := db.Create(article).Error; err != nil {
+	if err := db.Table(setting.DatabaseSetting.ArticleTable).Create(article).Error; err != nil {
 		return err
 	}
 
@@ -54,7 +56,7 @@ func AddArticle(article *Article) error {
 // GetArticleTotal gets the total number of articles based on the constraints
 func GetArticleTotal() (int64, error) {
 	var count int64
-	if err := db.Model(&Article{}).Count(&count).Error; err != nil {
+	if err := db.Table(setting.DatabaseSetting.ArticleTable).Model(&Article{}).Count(&count).Error; err != nil {
 		return 0, err
 	}
 
@@ -64,7 +66,7 @@ func GetArticleTotal() (int64, error) {
 // GetArticles gets a list of articles based on paging constraints
 func GetArticles() ([]*Article, error) {
 	var articles []*Article
-	err := db.Find(&articles).Error
+	err := db.Table(setting.DatabaseSetting.ArticleTable).Find(&articles).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
@@ -75,7 +77,7 @@ func GetArticles() ([]*Article, error) {
 // GetArticle Get a single article based on ID
 func GetArticle(id int) (*Article, error) {
 	var article Article
-	err := db.Where("id = ?", id).First(&article).Error
+	err := db.Table(setting.DatabaseSetting.ArticleTable).Where("id = ?", id).First(&article).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}

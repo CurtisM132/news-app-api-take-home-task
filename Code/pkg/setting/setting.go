@@ -10,18 +10,21 @@ import (
 )
 
 type Server struct {
-	HttpPort string
+	HttpPort          string
+	ArticleUpdateRate int // Minutes
 }
 
 var ServerSetting = &Server{}
 
 type Database struct {
-	Type     string
-	User     string
-	Password string
-	Host     string
-	Port     string
-	Database string
+	Type               string
+	User               string
+	Password           string
+	Host               string
+	Port               string
+	Database           string
+	ArticleTable       string
+	ArticleSourceTable string
 }
 
 var DatabaseSetting = &Database{}
