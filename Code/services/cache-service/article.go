@@ -8,12 +8,8 @@ import (
 const CACHE_ARTICLE = "ARTICLE"
 
 type Article struct {
-	ID    int
-	TagID int
-	State int
-
-	PageNum  int
-	PageSize int
+	ID        int
+	ArticleID string
 }
 
 func (a *Article) GetArticleKey() string {
@@ -29,17 +25,8 @@ func (a *Article) GetArticlesKey() string {
 	if a.ID > 0 {
 		keys = append(keys, strconv.Itoa(a.ID))
 	}
-	if a.TagID > 0 {
-		keys = append(keys, strconv.Itoa(a.TagID))
-	}
-	if a.State >= 0 {
-		keys = append(keys, strconv.Itoa(a.State))
-	}
-	if a.PageNum > 0 {
-		keys = append(keys, strconv.Itoa(a.PageNum))
-	}
-	if a.PageSize > 0 {
-		keys = append(keys, strconv.Itoa(a.PageSize))
+	if a.ArticleID != "" {
+		keys = append(keys, a.ArticleID)
 	}
 
 	return strings.Join(keys, "_")

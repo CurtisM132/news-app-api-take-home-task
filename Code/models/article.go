@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-
 	"gorm.io/gorm"
 )
 
@@ -17,7 +15,6 @@ type Article struct {
 	Author      string `json:"author"`
 }
 
-// ExistArticleByID checks if an article exists based on ID
 func ExistArticleByID(id int) (bool, error) {
 	var article Article
 	err := db.Select("id").Where("id = ?", id).First(&article).Error
@@ -32,9 +29,21 @@ func ExistArticleByID(id int) (bool, error) {
 	return false, nil
 }
 
-func AddArticle(article *Article) error {
-	fmt.Printf("%+v\n", *article)
+func ExistArticleByArticleID(id string) (bool, error) {
+	var article Article
+	err := db.Select("id").Where("article_id = ?", id).First(&article).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return false, err
+	}
 
+	if article.ID > 0 {
+		return true, nil
+	}
+
+	return false, nil
+}
+
+func AddArticle(article *Article) error {
 	if err := db.Create(article).Error; err != nil {
 		return err
 	}

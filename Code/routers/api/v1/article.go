@@ -10,12 +10,7 @@ import (
 	articleService "ziglu/services/article-service"
 )
 
-// @Summary Get a single article
-// @Produce  json
-// @Param id path int true "ID"
-// @Success 200 {object} app.Response
-// @Failure 500 {object} app.Response
-// @Router /api/v1/articles/{id} [get]
+// GetArticle Gets a single article
 func GetArticle(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -43,18 +38,9 @@ func GetArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, article)
 }
 
-// @Summary Get multiple articles
-// @Produce  json
-// @Param tag_id body int false "TagID"
-// @Param state body int false "State"
-// @Param created_by body int false "CreatedBy"
-// @Success 200 {object} app.Response
-// @Failure 500 {object} app.Response
-// @Router /api/v1/articles [get]
+// GetArticles Gets all current articles
 func GetArticles(c *gin.Context) {
-	articleService := articleService.Article{
-		// TagID: tagId,
-	}
+	articleService := articleService.Article{}
 
 	total, err := articleService.Count()
 	if err != nil {

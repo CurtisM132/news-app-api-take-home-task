@@ -24,7 +24,7 @@ func CreateConnection() {
 	var err error
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatalf("failed to open database connection to %s:%s - %s", setting.DatabaseSetting.Host, setting.DatabaseSetting.Port, err)
+		log.Fatalf("Failed to open database connection to %s:%s - %s", setting.DatabaseSetting.Host, setting.DatabaseSetting.Port, err)
 	}
 
 	sqlDB, err := db.DB()
@@ -35,7 +35,7 @@ func CreateConnection() {
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(100)
 
-	log.Println("DB connection successful")
+	log.Println("[INFO] DB connection successful")
 }
 
 func CloseConnection() {
